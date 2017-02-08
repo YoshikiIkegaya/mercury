@@ -29,6 +29,8 @@ Route::put('/auth/user/update_fcm_token', 'Auth\ProfileController@updateFcmToken
 
 Route::get('/user/{id}','UserController@show');
 
+Route::delete('/user/{id}','UserController@destroy');
+
 Route::resource('/plans', 'PlanController');
 
 Route::get('/plans/first_index/number/{num}','PlanController@firstIndex');
