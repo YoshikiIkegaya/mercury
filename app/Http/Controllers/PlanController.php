@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Plan;
 use App\Models\User;
+use App\Models\Combination;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use LaravelFCM\Message\OptionsBuilder;
@@ -258,16 +259,25 @@ class PlanController extends Controller
     {
         try {
             $data = $request->toArray();
-            if (Plan::where('id', $id)->update([
+            $plan = Plan::where('id', $id);
+            if ($plan->update([
                 'participant_id' => $data['participant_id'],
                 'is_closed' => true
             ])) {
-                $fcmToken = User::find($data['participant_id'])->fcm_token;
-                $this->sendFcm($fcmToken);
+                $creator_id = $request->user()->id;
+                $creatorArray = User::find($creator_id)->toArray();
+                $participantArray = User::find($data['participant_id'])->toArray();
+                $participantFcmToken = $participantArray['fcm_token'];
+                $combination = Combination::where('creator_id', $creator_id)->where('participant_id', $participant_id)->get();
+                $pushData = [
+                    'room_id' => $combination->id,
+                    'creator' => $creatorArray
+                ];
+                $this->sendFcm($participantFcmToken, $pushData);
 
                 return response()->json([
                     'status' => 'true',
-                    'data' => ['message' => 'Successful']
+                    'data' => ['room_id' => $combination->id, 'participant' => $participantArray]
                 ], 200);
             }
 
@@ -318,7 +328,7 @@ class PlanController extends Controller
         return false;
     }
 
-    public function sendFcm($fcmToken) {
+    public function sendFcm($fcmToken, $pushData) {
         $optionBuiler = new OptionsBuilder();
         $optionBuiler->setTimeToLive(60*20);
 
@@ -327,7 +337,7 @@ class PlanController extends Controller
                           ->setSound('default');
 
         $dataBuilder = new PayloadDataBuilder();
-        $dataBuilder->addData(['a_data' => 'my_data']);
+        $dataBuilder->addData($pushData);
 
         $option = $optionBuiler->build();
         $notification = $notificationBuilder->build();
