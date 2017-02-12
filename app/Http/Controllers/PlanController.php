@@ -273,14 +273,14 @@ class PlanController extends Controller
                     'participant_id' => $data['participant_id']
                 ]);
                 $pushData = [
-                    'room_id' => $combination->id,
+                    'room_id' => $combination['id'],
                     'creator' => $creatorArray
                 ];
                 $this->sendFcm($participantFcmToken, $pushData);
 
                 return response()->json([
                     'status' => 'true',
-                    'data' => ['room_id' => $combination->id, 'participant' => $participantArray]
+                    'data' => ['room_id' => $combination['id'], 'participant' => $participantArray]
                 ], 200);
             }
 
