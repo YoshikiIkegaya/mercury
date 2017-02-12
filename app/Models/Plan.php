@@ -21,6 +21,6 @@ class Plan extends Model
     // }
 
     public function users(){
-        return $this->belongsToMany('App\Models\User')->withPivot('room_id')->withTimestamps();
+        return $this->belongsToMany('App\Models\User')->withTimestamps();
     }
 }
