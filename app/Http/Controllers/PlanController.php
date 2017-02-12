@@ -273,10 +273,7 @@ class PlanController extends Controller
                     'creator_id' => $creator_id,
                     'participant_id' => $data['participant_id']
                 ]);
-                $pushData = [
-                    'room_id' => $combination['id'],
-                    'creator' => $creatorArray
-                ];
+                $pushData = $creatorArray + ['room_id' => $combination['id']];
                 $this->sendFcm($participantFcmToken, $pushData);
                 MatchNotification::create([
                     'user_id' => $data['participant_id'],
