@@ -268,7 +268,11 @@ class PlanController extends Controller
                 $creatorArray = User::find($creator_id)->toArray();
                 $participantArray = User::find($data['participant_id'])->toArray();
                 $participantFcmToken = $participantArray['fcm_token'];
-                $combination = Combination::where('creator_id', $creator_id)->where('participant_id', $data['participant_id'])->get();
+                $combination = Combination::create([
+                    'creator_id' => $creator_id,
+                    'participant_id' => $data['participant_id']
+                ]);
+                // $combination = Combination::where('creator_id', $creator_id)->where('participant_id', $data['participant_id'])->get();
                 dd($combination);
                 $pushData = [
                     'room_id' => $combination['id'],
