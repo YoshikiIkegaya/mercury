@@ -340,7 +340,7 @@ class PlanController extends Controller
                           ->setSound('default');
 
         $dataBuilder = new PayloadDataBuilder();
-        $dataBuilder->addData($pushData);
+        $dataBuilder->addData(json_encode($pushData));
 
         $option = $optionBuiler->build();
         $notification = $notificationBuilder->build();
