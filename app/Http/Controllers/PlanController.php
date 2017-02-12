@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Plan;
 use App\Models\User;
 use App\Models\Combination;
+use App\Models\MatchNotification;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use LaravelFCM\Message\OptionsBuilder;
@@ -277,6 +278,11 @@ class PlanController extends Controller
                     'creator' => $creatorArray
                 ];
                 $this->sendFcm($participantFcmToken, $pushData);
+                MatchNotification::create([
+                    'user_id' => $data['participant_id'],
+                    'creator_image_data' => $creatorArray['image_data'],
+                    'room_id' => $combination['id']
+                ]);
 
                 return response()->json([
                     'status' => 'true',

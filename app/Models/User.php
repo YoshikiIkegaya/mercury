@@ -39,6 +39,11 @@ class User extends Authenticatable
 
     public function evaluations()
     {
-        return $this->hasMany('App\Evaluation');
+        return $this->hasMany('App\Models\Evaluation');
+    }
+
+    public function matchNotifications()
+    {
+        return $this->hasMany('App\Models\MatchNotification');
     }
 }
