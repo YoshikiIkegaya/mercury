@@ -276,7 +276,7 @@ class PlanController extends Controller
                     'room_id' => $combination['id'],
                     'creator' => $creatorArray
                 ];
-                dd($participantFcmToken);
+                dd($combination['id']);
                 $this->sendFcm($participantFcmToken, $pushData);
 
                 return response()->json([
