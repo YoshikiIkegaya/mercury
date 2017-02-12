@@ -36,4 +36,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany('App\Models\Plan')->withTimestamps();
     }
+
+    public function evaluations()
+    {
+        return $this->hasMany('App\Evaluation');
+    }
 }

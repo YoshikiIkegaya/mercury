@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Combination extends Model
+class Evaluation extends Model
 {
     protected $fillable = [
-        'creator_id',
-        'participant_id',
+        'user_id',
+        'evaluated_by',
+        'rate',
+        'comment'
     ];
 }

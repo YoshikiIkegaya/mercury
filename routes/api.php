@@ -46,3 +46,7 @@ Route::put('/plans/{id}/apply','PlanController@applyForPlan');
 Route::get('/plans/{id}/applicants','PlanController@showApplicantsForPlan');
 
 Route::put('/plans/{id}/accept','PlanController@acceptApplicationForPlan');
+
+Route::get('/evaluation/user_id/{user_id}','EvaluationController@indexOnUser');
+
+Route::post('/evaluation','EvaluationController@post');
