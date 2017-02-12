@@ -270,14 +270,14 @@ class PlanController extends Controller
                 $participantFcmToken = $participantArray['fcm_token'];
                 $combination = Combination::where('creator_id', $creator_id)->where('participant_id', $data['participant_id'])->get();
                 $pushData = [
-                    'room_id' => $combination->id,
+                    'room_id' => $combination['id'],
                     'creator' => $creatorArray
                 ];
                 $this->sendFcm($participantFcmToken, $pushData);
 
                 return response()->json([
                     'status' => 'true',
-                    'data' => ['room_id' => $combination->id, 'participant' => $participantArray]
+                    'data' => ['room_id' => $combination['id'], 'participant' => $participantArray]
                 ], 200);
             }
 
